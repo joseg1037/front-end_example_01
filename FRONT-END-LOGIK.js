@@ -1,5 +1,22 @@
 let [hours, minutes, seconds, milliseconds]=[0,0,0,0];
 let timeoutId;
+let divHoursValue,
+divMinutesValue,
+divSecondsValue, 
+divMilisecondsValue, 
+startButton, 
+divItem,
+divItemRounds;
+
+window.onload=function(){
+	divHoursValue=document.getElementById('div-hours-value');
+	divMinutesValue=document.getElementById('div-minutes-value');
+	divSecondsValue=document.getElementById('div-seconds-value'); 
+	divMilisecondsValue=document.getElementById('div-milliseconds-value');
+	startButton=document.getElementById("start-button");
+	divItem=document.getElementById("div-item");	
+	divItemRounds=document.getElementById("div-round-items");
+}
 
 function StartTimer(){	
 	milliseconds+=1;
@@ -27,28 +44,28 @@ function StartTimer(){
 		s="0"+s;
 	if(milliseconds<10)
 		ms="0"+ms;
-	document.getElementById('div-hours-value').innerHTML=h+":";
-	document.getElementById('div-minutes-value').innerHTML=m+":";
-	document.getElementById('div-seconds-value').innerHTML=s+":";
-	document.getElementById('div-milliseconds-value').innerHTML=ms;
+	divHoursValue.innerHTML=h+":";
+	divMinutesValue.innerHTML=m+":";
+	divSecondsValue.innerHTML=s+":";
+	divMilisecondsValue.innerHTML=ms;
 	timeoutId=setTimeout(StartTimer, 10);
-	document.getElementById("start-button").disabled=true;
+	startButton.disabled=true;
 }
 function StopTimer(){
 	clearTimeout(timeoutId);
-	document.getElementById("start-button").disabled=false;
+	startButton.disabled=false;
 }
 function ClearTimer(){
 	clearTimeout(timeoutId);
 	hours=0, minutes=0, seconds=0, milliseconds=0;
-	document.getElementById('div-hours-value').innerHTML="00:";
-	document.getElementById('div-minutes-value').innerHTML="00:";
-	document.getElementById('div-seconds-value').innerHTML="00:";
-	document.getElementById('div-milliseconds-value').innerHTML="00";
-	document.getElementById("start-button").disabled=false;
+	divHoursValue.innerHTML="00:";
+	divMinutesValue.innerHTML="00:";
+	divSecondsValue.innerHTML="00:";
+	divMilisecondsValue.innerHTML="00";
+	startButton.disabled=false;
 }
 function AddRound(){
-	var itemsCount=document.getElementById("div-item").querySelectorAll("div").length;
+	var itemsCount=divItem.querySelectorAll("div").length;
 	if(itemsCount>14)
 		DeleteFirstRound();	
 	var newDiv=document.createElement('div');
@@ -70,15 +87,14 @@ function AddRound(){
 	else
 		millisecondsString=`${milliseconds}`;
 	newDiv.innerHTML=`${hoursString}:${minutesString}:${secondsString}:${millisecondsString}`;
-		document.getElementById("div-item").appendChild(newDiv);	
+	divItem.appendChild(newDiv);	
+	divItemRounds.scrollTop=divItemRounds.scrollHeight;
 }
 function DeleteRounds(){
-	var roundsDiv=document.getElementById("div-item");
-	while(roundsDiv.firstChild){
-		roundsDiv.removeChild(roundsDiv.firstChild);
+	while(divItem.firstChild){
+		divItem.removeChild(divItem.firstChild);
 	}
 }
 function DeleteFirstRound(){
-	var roundsDiv=document.getElementById("div-item");
-	roundsDiv.removeChild(roundsDiv.firstChild);
+	divItem.removeChild(divItem.firstChild);
 }
